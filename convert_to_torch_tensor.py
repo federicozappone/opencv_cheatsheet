@@ -7,7 +7,7 @@ image = cv2.imread("test_image.jpg")
 # convert to tensor
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-half = False # half precision available on model
+half = False # model supports half precision
 
 image = image[:, :, ::-1].transpose(2, 0, 1)  # BGR to RGB, to 3x416x416
 image = np.ascontiguousarray(image)
