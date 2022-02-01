@@ -37,7 +37,7 @@ else: # linux
 
 ffmpeg_cmd = [ffmpeg_bin,
             "-f", grabber,
-            "-video_size", f"{str(image_width)}x{str(image_height)}",
+            "-video_size", f"{image_width}x{image_height}",
             "-i", device,               # input device
             "-r", "30",                 # fps
             "-pix_fmt", "bgr24",        # opencv requires bgr24 pixel format.

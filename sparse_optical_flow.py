@@ -25,8 +25,10 @@ p0 = cv2.goodFeaturesToTrack(old_gray, mask=None, **feature_params)
 # create a mask image for drawing purposes
 mask = np.zeros_like(old_frame)
 
+
 while True:
     ret, frame = cap.read()
+
     if not ret:
         print("cannot acquire frame")
         continue
@@ -48,8 +50,8 @@ while True:
         mask = cv2.line(mask, (int(a), int(b)), (int(c), int(d)), color[i].tolist(), 2)
         frame = cv2.circle(frame, (int(a), int(b)), 5, color[i].tolist(), -1)
 
-    img = cv2.add(frame, mask)
-    cv2.imshow("frame", img)
+    image = cv2.add(frame, mask)
+    cv2.imshow("frame", image)
 
     k = cv.waitKey(30) & 0xff
     if k == "q":
