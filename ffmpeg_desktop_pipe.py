@@ -53,7 +53,7 @@ while True:
     raw_image = pipe.stdout.read(image_width * image_height * 3)
 
     # convert read bytes to np
-    image =  np.frombuffer(raw_image, dtype=np.uint8)
+    image = np.frombuffer(raw_image, dtype=np.uint8)
     image = image.reshape((image_height, image_width, 3))
 
     cv2.imshow("desktop", image)
