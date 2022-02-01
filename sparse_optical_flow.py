@@ -17,13 +17,9 @@ lk_params = dict(winSize=(15, 15),
 
 color = np.random.randint(0, 255, (100, 3))
 
-# take first frame and find corners in it
-ret, old_frame = cap.read()
-old_gray = cv2.cvtColor(old_frame, cv2.COLOR_BGR2GRAY)
-p0 = cv2.goodFeaturesToTrack(old_gray, mask=None, **feature_params)
-
-# create a mask image for drawing purposes
-mask = np.zeros_like(old_frame)
+old_gray = None
+p0 = None
+mask = None
 
 
 while True:
@@ -32,6 +28,13 @@ while True:
     if not ret:
         print("cannot acquire frame")
         continue
+
+    if old_gray is None:
+        old_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        p0 = cv2.goodFeaturesToTrack(old_gray, mask=None, **feature_params)
+        
+        # create a mask image for drawing purposes
+        mask = np.zeros_like(frame)
 
     frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
@@ -53,7 +56,7 @@ while True:
     image = cv2.add(frame, mask)
     cv2.imshow("frame", image)
 
-    k = cv.waitKey(30) & 0xff
+    k = cv2.waitKey(30) & 0xff
     if k == "q":
         break
 

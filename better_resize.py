@@ -36,7 +36,7 @@ def image_resize(image, width=None, height=None, inter=cv2.INTER_AREA):
 
 image = cv2.imread("test_image.jpg")
 
-resized = image_resize(image, width=300)
+resized = image_resize(image, width=100)
 
 cv2.imshow("image", image)
 cv2.imshow("resized", resized)

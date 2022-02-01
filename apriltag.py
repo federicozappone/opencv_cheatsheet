@@ -4,7 +4,6 @@ import apriltag
 
 
 def draw_pose(overlay, camera_params, tag_size, pose, z_sign=1):
-
     opoints = np.array([
         -1, -1,  0,
          1, -1,  0,
@@ -41,9 +40,7 @@ def draw_pose(overlay, camera_params, tag_size, pose, z_sign=1):
     dcoeffs = np.zeros(5)
 
     ipoints, _ = cv2.projectPoints(opoints, rvec, tvec, K, dcoeffs)
-
     ipoints = np.round(ipoints).astype(int)
-
     ipoints = [tuple(pt) for pt in ipoints.reshape(-1, 2)]
 
     for i, j in edges:
@@ -66,18 +63,21 @@ while True:
 
     results = detector.detect(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
 
+    # camera intrinsics from camera calibration (fx, fy, cx, cy)
+    intrinsics = [640.0541384, 640.29663381, 324.47047202, 230.48852561]
+    tag_size = 3.0
+
     # loop over the apriltag detection results
     for detection in results:
+        pose, e0, e1 = detector.detection_pose(detection, intrinsics, tag_size)
 
-        pose, e0, e1 = detector.detection_pose(detection, (640.0541384, 640.29663381, 324.47047202, 230.48852561), 3.0)
-
-        draw_pose(frame, (640.0541384, 640.29663381, 324.47047202, 230.48852561), 3.0, pose)
+        draw_pose(frame, intrinsics, tag_size, pose)
 
         rvec, jacobian = cv2.Rodrigues(pose[:3, :3])
         tvec = pose[:3, 3]
 
-        print("rvec=", rvec)
-        print("tvec=", tvec)
+        print("rvec", rvec)
+        print("tvec", tvec)
 
     # display the resulting frame
     cv2.imshow("frame", frame)
