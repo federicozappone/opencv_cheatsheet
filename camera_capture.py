@@ -4,6 +4,10 @@ import cv2
 
 cap = cv2.VideoCapture(0)
 
+# set the maximum resolution
+cap.set(cv2.CV_CAP_PROP_FRAME_WIDTH, 1920)
+cap.set(cv2.CV_CAP_PROP_FRAME_HEIGHT, 1080)
+
 if not cap.isOpened():
     print("cannot open camera")
     exit()
